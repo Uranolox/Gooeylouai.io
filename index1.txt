@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="utf-8" />
+  <title>Gooeylouai.io</title>
+
+  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
+  <link rel="stylesheet" href="TemplateData/style.css" />
+</head>
+
+<body>
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+    <div id="unity-loading-bar">
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+
+    <div id="unity-warning"></div>
+  </div>
+
+  <script>
+    /* =====================================
+       FORCE ?v=999999 ON MAIN URL
+       ===================================== */
+    if (!window.location.search.includes("v=999999")) {
+      window.location.replace(window.location.pathname + "?v=999999");
+    }
+
+    /* =====================================
+       REMOVE ALL SERVICE WORKERS
+       ===================================== */
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.getRegistrations().then(r =>
+        r.forEach(reg => reg.unregister())
+      );
+    }
+
+    const canvas = document.getElementById("unity-canvas");
+    const loadingBar = document.getElementById("unity-loading-bar");
+    const progressBarFull = document.getElementById("unity-progress-bar-full");
+    const warningBanner = document.getElementById("unity-warning");
+
+    function unityShowBanner(msg, type) {
+      const div = document.createElement("div");
+      div.innerHTML = msg;
+      warningBanner.appendChild(div);
+      if (type !== "error") setTimeout(() => div.remove(), 5000);
+    }
+
+    const buildUrl = "Build";
+    const v = "?v=999999";
+
+    const config = {
+      dataUrl: buildUrl + "/Gooeylouai.io.data.unityweb" + v,
+      frameworkUrl: buildUrl + "/Gooeylouai.io.framework.js.unityweb" + v,
+      codeUrl: buildUrl + "/Gooeylouai.io.wasm.unityweb" + v,
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "DefaultCompany",
+      productName: "Gooeylouai.io",
+      productVersion: "latest",
+      showBanner: unityShowBanner,
+    };
+
+    loadingBar.style.display = "block";
+
+    const script = document.createElement("script");
+    script.src = buildUrl + "/Gooeylouai.io.loader.js" + v;
+
+    script.onload = () => {
+      createUnityInstance(canvas, config, p => {
+        progressBarFull.style.width = (p * 100) + "%";
+      }).then(() => {
+        loadingBar.style.display = "none";
+      }).catch(alert);
+    };
+
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

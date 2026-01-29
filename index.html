@@ -1,83 +1,149 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Gooeylouai.io</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
-  <link rel="stylesheet" href="TemplateData/style.css" />
+<title>GooeyLouai – Under Maintenance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --neon: #ffffff;
+  --bg1: #ffffff;
+  --bg2: #1c1c2e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(circle at top, var(--bg2), var(--bg1));
+  height: 100vh;
+  color: rgb(253, 249, 249);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Ambient background glow */
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgb(28, 72, 57), transparent 70%);
+  animation: float 10s infinite alternate ease-in-out;
+}
+
+body::after {
+  top: 60%;
+  left: 60%;
+  animation-duration: 14s;
+}
+
+/* Top-left logo */
+.top-left-image {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 170px;
+  filter: drop-shadow(0 0 15px var(--neon));
+  animation: pulse 2.5s infinite;
+}
+
+/* Main container */
+.container {
+  text-align: center;
+  max-width: 600px;
+  padding: 30px;
+  z-index: 1;
+}
+
+/* STATIC maintenance image (NO animation) */
+.maintenance-image {
+  width: 200px;
+  margin-bottom: 25px;
+  filter:
+    drop-shadow(0 0 10px var(--neon))
+    drop-shadow(0 0 25px rgba(108,243,197,0.6));
+}
+
+/* Title */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #6cf3c5, #082d38);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: glowText 2s infinite alternate;
+}
+
+/* Text */
+p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 10px;
+}
+
+.game-name {
+  color: var(--neon);
+  text-shadow: 0 0 8px var(--neon);
+}
+
+footer {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+/* Animations */
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-15px); }
+}
+
+@keyframes glowText {
+  from {
+    text-shadow: 0 0 10px rgba(108,243,197,0.4);
+  }
+  to {
+    text-shadow:
+      0 0 15px rgba(108,243,197,0.9),
+      0 0 30px rgba(108,243,197,0.6);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+</style>
 </head>
 
 <body>
-  <div id="unity-container">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
 
-    <div id="unity-loading-bar">
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
-      </div>
-    </div>
+<img src="logo.png" class="top-left-image" alt="GooeyLouai Logo">
 
-    <div id="unity-warning"></div>
-  </div>
+<div class="container">
 
-  <script>
-    /* =====================================
-       FORCE ?v=999999 ON MAIN URL
-       ===================================== */
-    if (!window.location.search.includes("v=999999")) {
-      window.location.replace(window.location.pathname + "?v=999999");
-    }
+  <img src="maintenance.png" class="maintenance-image" alt="Maintenance">
 
-    /* =====================================
-       REMOVE ALL SERVICE WORKERS
-       ===================================== */
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.getRegistrations().then(r =>
-        r.forEach(reg => reg.unregister())
-      );
-    }
+  <h1>Under Maintenance</h1>
 
-    const canvas = document.getElementById("unity-canvas");
-    const loadingBar = document.getElementById("unity-loading-bar");
-    const progressBarFull = document.getElementById("unity-progress-bar-full");
-    const warningBanner = document.getElementById("unity-warning");
+  <p><span class="game-name">GooeyLouai</span> servers are currently offline.</p>
+  
+  <p>Please check back soon.</p>
 
-    function unityShowBanner(msg, type) {
-      const div = document.createElement("div");
-      div.innerHTML = msg;
-      warningBanner.appendChild(div);
-      if (type !== "error") setTimeout(() => div.remove(), 5000);
-    }
+  <footer>@ 2026 Louai Djafar</footer>
 
-    const buildUrl = "Build";
-    const v = "?v=999999";
-
-    const config = {
-      dataUrl: buildUrl + "/Gooeylouai.io.data.unityweb" + v,
-      frameworkUrl: buildUrl + "/Gooeylouai.io.framework.js.unityweb" + v,
-      codeUrl: buildUrl + "/Gooeylouai.io.wasm.unityweb" + v,
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "Gooeylouai.io",
-      productVersion: "latest",
-      showBanner: unityShowBanner,
-    };
-
-    loadingBar.style.display = "block";
-
-    const script = document.createElement("script");
-    script.src = buildUrl + "/Gooeylouai.io.loader.js" + v;
-
-    script.onload = () => {
-      createUnityInstance(canvas, config, p => {
-        progressBarFull.style.width = (p * 100) + "%";
-      }).then(() => {
-        loadingBar.style.display = "none";
-      }).catch(alert);
-    };
-
-    document.body.appendChild(script);
-  </script>
+</div>
 </body>
 </html>
