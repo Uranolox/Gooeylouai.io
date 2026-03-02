@@ -1,83 +1,65 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Gooeylouai.io</title>
+    <meta charset="UTF-8">
+    <title>Announcement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+            margin: 0;
+            padding: 0;
+        }
 
-  <link rel="shortcut icon" href="TemplateData/favicon.ico" />
-  <link rel="stylesheet" href="TemplateData/style.css" />
+        .container {
+            text-align: center;
+            margin-top: 5%;
+        }
+
+        .announcement {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .bottom-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            font-size: 14px;
+        }
+
+        .bottom-link a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .bottom-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-
 <body>
-  <div id="unity-container">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
 
-    <div id="unity-loading-bar">
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
-      </div>
+    <div class="container">
+        <div class="announcement">
+            Hello,
+            <p>I am pretty sure you guys are excited with "Gooeylouai.io". Unfortunantly, due to the shitty ipads not being able to run such a big game, i might have to tune it down a bit. Also, keep in mind that this was made solo. BUT, great news! I will be lettting people join. I have been thinking of quitting Gooeylouai.io, and i have another big project to work on called Porch. You can see the progress at @Uranolox on yt. I will be posting a google form.  You should see it on the bottom right. If we can get at least 8 people to join my New game studio, called LensShift games, we will continue making this game. Also, you do not need to do with computers to work with me! you dont need to code, 3d model,  whatever your talent is, we will make it work. I don't know if there will be payment, but yeah. Please please PLEASE get this to everyone you know.
+               </p>
+
+               
+
+
+
+
+
+Also thank you to: davis, orson, hudson, hunter, emran, mason, dalton, owen And many more I cant even list them. Thank you guys SO SO SO MUCH.
+        </div>
     </div>
 
-    <div id="unity-warning"></div>
-  </div>
+    <div class="bottom-link">
+        <a href="https://example.com">Learn More</a>
+    </div>
 
-  <script>
-    /* =====================================
-       FORCE ?v=999999 ON MAIN URL
-       ===================================== */
-    if (!window.location.search.includes("v=999999")) {
-      window.location.replace(window.location.pathname + "?v=999999");
-    }
-
-    /* =====================================
-       REMOVE ALL SERVICE WORKERS
-       ===================================== */
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.getRegistrations().then(r =>
-        r.forEach(reg => reg.unregister())
-      );
-    }
-
-    const canvas = document.getElementById("unity-canvas");
-    const loadingBar = document.getElementById("unity-loading-bar");
-    const progressBarFull = document.getElementById("unity-progress-bar-full");
-    const warningBanner = document.getElementById("unity-warning");
-
-    function unityShowBanner(msg, type) {
-      const div = document.createElement("div");
-      div.innerHTML = msg;
-      warningBanner.appendChild(div);
-      if (type !== "error") setTimeout(() => div.remove(), 5000);
-    }
-
-    const buildUrl = "Build";
-    const v = "?v=999999";
-
-    const config = {
-      dataUrl: buildUrl + "/Gooeylouai.io.data.unityweb" + v,
-      frameworkUrl: buildUrl + "/Gooeylouai.io.framework.js.unityweb" + v,
-      codeUrl: buildUrl + "/Gooeylouai.io.wasm.unityweb" + v,
-      streamingAssetsUrl: "StreamingAssets",
-      companyName: "DefaultCompany",
-      productName: "Gooeylouai.io",
-      productVersion: "latest",
-      showBanner: unityShowBanner,
-    };
-
-    loadingBar.style.display = "block";
-
-    const script = document.createElement("script");
-    script.src = buildUrl + "/Gooeylouai.io.loader.js" + v;
-
-    script.onload = () => {
-      createUnityInstance(canvas, config, p => {
-        progressBarFull.style.width = (p * 100) + "%";
-      }).then(() => {
-        loadingBar.style.display = "none";
-      }).catch(alert);
-    };
-
-    document.body.appendChild(script);
-  </script>
 </body>
 </html>
